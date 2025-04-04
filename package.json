@@ -1,0 +1,86 @@
+{
+  "name": "quizzlearn-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "nodemon app.ts",
+    "dev": "ts-node-dev --respawn --transpile-only app.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:postgres": "cross-env NODE_ENV=development nodemon -r dotenv/config app.ts dotenv_config_path=.env.postgres",
+    "start:mssql": "cross-env NODE_ENV=local nodemon -r dotenv/config app.ts dotenv_config_path=.env.mssql",
+    "start:pc": "cross-env NODE_ENV=local nodemon -r dotenv/config app.ts dotenv_config_path=.env.pc",
+
+    "migrate:postgres": "cross-env ENV_FILE=.env.postgres npx sequelize-cli db:migrate",
+    "migrate:mssql": "cross-env ENV_FILE=.env.mssql npx sequelize-cli db:migrate",
+    "migrate:pc": "cross-env ENV_FILE=.env.pc npx sequelize-cli db:migrate",
+    
+    "migrate:postgres:undo": "cross-env ENV_FILE=.env.postgres npx sequelize-cli db:migrate:undo",
+    "migrate:mssql:undo": "cross-env ENV_FILE=.env.mssql npx sequelize-cli db:migrate:undo",
+    "migrate:pc:undo": "cross-env ENV_FILE=.env.pc npx sequelize-cli db:migrate:undo",
+    
+    "migrate:postgres:undo:all": "cross-env ENV_FILE=.env.postgres npx sequelize-cli db:migrate:undo:all",
+    "migrate:mssql:undo:all": "cross-env ENV_FILE=.env.mssql npx sequelize-cli db:migrate:undo:all",
+    "migrate:pc:undo:all": "cross-env ENV_FILE=.env.pc npx sequelize-cli db:migrate:undo:all",
+    
+    "migrate:postgres:seed": "cross-env ENV_FILE=.env.postgres npx sequelize-cli db:seed",
+    "migrate:mssql:seed": "cross-env ENV_FILE=.env.mssql npx sequelize-cli db:seed",
+    "migrate:pc:seed": "cross-env ENV_FILE=.env.pc npx sequelize-cli db:seed",
+    
+    "migrate:postgres:seed:undo": "cross-env ENV_FILE=.env.postgres npx sequelize-cli db:seed:undo",
+    "migrate:mssql:seed:undo": "cross-env ENV_FILE=.env.mssql npx sequelize-cli db:seed:undo",
+    "migrate:pc:seed:undo": "cross-env ENV_FILE=.env.pc npx sequelize-cli db:seed:undo",
+    
+    "migrate:postgres:seed:all": "cross-env ENV_FILE=.env.postgres npx sequelize-cli db:seed:all",
+    "migrate:mssql:seed:all": "cross-env ENV_FILE=.env.mssql npx sequelize-cli db:seed:all",
+    "migrate:pc:seed:all": "cross-env ENV_FILE=.env.pc npx sequelize-cli db:seed:all",
+    
+    "migrate:postgres:seed:undo:all": "cross-env ENV_FILE=.env.postgres npx sequelize-cli db:seed:undo:all",
+    "migrate:mssql:seed:undo:all": "cross-env ENV_FILE=.env.mssql npx sequelize-cli db:seed:undo:all",
+    "migrate:pc:seed:undo:all": "cross-env ENV_FILE=.env.pc npx sequelize-cli db:seed:undo:all"
+
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/node": "^20.4.0",
+    "@types/node-cron": "^3.0.11",
+    "@types/validator": "^13.7.17",
+    "axios": "^1.7.7",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.5.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.9",
+    "express": "^4.18.9",
+    "ioredis": "^5.3.2",
+    "mysql2": "^3.12.0",
+    "node-cron": "^3.0.3",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^6.9.16",
+    "nodemon": "^3.1.9",
+    "pg": "^8.14.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.5",
+    "tedious": "^18.6.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.1.6",
+    "uuid": "^11.0.3"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/nodemailer": "^6.4.16",
+    "sequelize-cli": "^6.6.2"
+  }
+}
