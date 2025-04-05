@@ -1,51 +1,67 @@
-import { Model, DataTypes, Sequelize } from "sequelize";
+import { Sequelize, DataTypes, Model, Optional } from "sequelize";
 import db from "../models";
 
-interface ConversationAttributes {
-  id?: number;
-  userId: number;
-  title?: string;
+export interface ConversationAttributes {
+  id: string;
+  userId: string;
+  title: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-class Conversation extends Model<ConversationAttributes> implements ConversationAttributes {
-  public id!: number;
-  public userId!: number;
+interface ConversationCreationAttributes
+  extends Optional<
+    ConversationAttributes,
+    "id" | "userId" | "title" | "createdAt" | "updatedAt"
+  > {}
+
+export class Conversation
+  extends Model<ConversationAttributes, ConversationCreationAttributes>
+  implements ConversationAttributes
+{
+  public id!: string;
+  public userId!: string;
   public title!: string;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+  public createdAt!: Date;
+  public updatedAt!: Date;
 
   public static associate(models: { [key: string]: any }) {
     Conversation.belongsTo(models.User, { foreignKey: "userId", as: "user" });
-    Conversation.hasMany(models.ConversationDetail, { foreignKey: "conversationId", as: "details" });
   }
 }
 
 Conversation.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
-      references: {
-        model: "users",
-        key: "id",
-      },
+      references: { model: "Users", key: "id" },
+      onDelete: "CASCADE",
     },
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: true,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
     },
   },
   {
-    sequelize: db.sequelize as unknown as Sequelize,
-    tableName: "chats", // Đồng bộ với ConversationDetail
-    timestamps: true,
+    sequelize: db.sequelize,
+    modelName: "Conversation",
   }
 );
 
+// Add the model to db
 db.Conversation = Conversation;
+
 export default Conversation;

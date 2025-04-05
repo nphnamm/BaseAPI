@@ -13,6 +13,7 @@ import "./models/card";
 import "./models/userSession";
 import "./models/userProgress";
 import "./models/image";
+import "./models/conversation";
 import "./models/conversationDetail";
 
 // Import routers
@@ -24,6 +25,7 @@ import userSessionRouter from "./routes/userSessionRoutes";
 import userProgressRouter from "./routes/userProgressRoutes";
 import imageRouter from "./routes/imageRoutes";
 import userStatsRouter from "./routes/userStatsRoutes";
+import ai from "./routes/conversationRoutes";
 
 import { ErrorMiddleWare } from "./middleware/error";
 
@@ -76,6 +78,7 @@ app.use("/api/v1/session", userSessionRouter);
 app.use("/api/v1/image", imageRouter);
 app.use("/api/v1/user-progress", userProgressRouter);
 app.use("/api/v1/user-stats", userStatsRouter);
+app.use("/api/v1/ai", ai);
 
 // Root route
 app.get("/", (req: Request, res: Response) => {
@@ -93,7 +96,6 @@ const startServer = async () => {
   // If you need to sync model changes later, uncomment this
   /* 
   if (process.env.NODE_ENV === 'development') {
-    await db.sequelize.sync({ alter: true }); // In development, alter tables
     console.log('Database synchronized');
   }
   */

@@ -1,9 +1,10 @@
-import { Model, DataTypes, Sequelize } from "sequelize";
+import { Conversation } from "./conversation";
+import { Sequelize, DataTypes, Model, Optional } from "sequelize";
 import db from "../models";
 
-interface ConversationDetailAttributes {
-  id?: number;
-  conversationId: number;
+export interface ConversationDetailAttributes {
+  id: string;
+  conversationId: string;
   message: string;
   response: string;
   order: number;
@@ -11,17 +12,34 @@ interface ConversationDetailAttributes {
   updatedAt?: Date;
 }
 
-class ConversationDetail extends Model<ConversationDetailAttributes> implements ConversationDetailAttributes {
-  public id!: number;
-  public conversationId!: number;
+interface ConversationDetailCreationAttributes
+  extends Optional<
+    ConversationDetailAttributes,
+    | "id"
+    | "conversationId"
+    | "message"
+    | "response"
+    | "order"
+    | "createdAt"
+    | "updatedAt"
+  > {}
+
+export class ConversationDetail
+  extends Model<
+    ConversationDetailAttributes,
+    ConversationDetailCreationAttributes
+  >
+  implements ConversationDetailAttributes
+{
+  public id!: string;
+  public conversationId!: string;
   public message!: string;
   public response!: string;
   public order!: number;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-
-  public static associate(models: any) {
-    this.belongsTo(models.Conversation, {
+  public createdAt!: Date;
+  public updatedAt!: Date;
+  public static associate(models: { [key: string]: any }) {
+    ConversationDetail.belongsTo(models.Conversation, {
       foreignKey: "conversationId",
       as: "conversation",
     });
@@ -31,24 +49,32 @@ class ConversationDetail extends Model<ConversationDetailAttributes> implements 
 ConversationDetail.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
     conversationId: {
-      type: DataTypes.INTEGER, // Chỉnh sửa từ UUID thành INTEGER để khớp với Conversation.id
+      type: DataTypes.STRING, // Chỉnh sửa từ UUID thành INTEGER để khớp với Conversation.id
       allowNull: false,
       references: {
-        model: "chats", // Phải khớp với tableName trong Conversation
+        model: "Conversations", // Phải khớp với tableName trong Conversation
         key: "id",
       },
     },
     message: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
     },
     response: {
       type: DataTypes.TEXT,
+      allowNull: true,
+    },
+
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
     order: {
@@ -57,11 +83,12 @@ ConversationDetail.init(
     },
   },
   {
-    sequelize: db.sequelize as unknown as Sequelize,
-    tableName: "conversationDetails",
-    timestamps: true,
+    sequelize: db.sequelize,
+    modelName: "ConversationDetail",
   }
 );
 
+// Add the model to db
 db.ConversationDetail = ConversationDetail;
+
 export default ConversationDetail;

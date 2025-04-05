@@ -21,7 +21,7 @@ router.post("/sign-up", registrationUser);
 router.post("/activation", activateUser);
 router.post("/login", loginUser);
 router.get("/logout", updateAccessToken, isAuthenticated, logoutUser);
-router.get("/me", updateAccessToken, isAuthenticated, getUserInfo);
+router.get("/profile", updateAccessToken, isAuthenticated, getUserInfo);
 router.get("/refresh", refreshToken);
 
 router.put(
