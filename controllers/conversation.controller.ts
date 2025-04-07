@@ -10,6 +10,9 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 interface CustomRequest extends Request {
   user?: any;
 }
+
+
+
 const Conversation = db.Conversation;
 
 const ConversationDetail = db.ConversationDetail;
