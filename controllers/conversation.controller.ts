@@ -26,6 +26,20 @@ export const createConversation = CatchAsyncError(
       const { userId, title } = req.body;
 
       console.log("user", userId, title);
+      const existingNewConversation = await Conversation.findOne({
+        where: {
+          userId,
+          title: "untitled"
+        },
+      },
+      );
+
+      if (existingNewConversation) {
+        return res.status(200).json({
+          success: true,
+          conversation: existingNewConversation,
+        });
+      }
 
       const conversation = await Conversation.create({
         id: uuidv4(),
@@ -33,7 +47,11 @@ export const createConversation = CatchAsyncError(
         title: title ? title : "untitled",
       });
 
-      res.status(201).json(conversation);
+
+      res.status(200).json({
+        success: true,
+        conversation: conversation,
+      });
     } catch (error) {
       console.log(error);
       next(error);
